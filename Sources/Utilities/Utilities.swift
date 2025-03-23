@@ -1,7 +1,7 @@
 import UIKit
 
 extension String {
-    func decodingHTMLEntities() -> String {
+    public func decodingHTMLEntities() -> String {
         guard let data = self.data(using: .utf8) else {
             return self
         }
@@ -18,9 +18,8 @@ extension String {
     }
 }
 
-
 extension UIView {
-    func addInnerShadow() {
+    public func addInnerShadow() {
         let innerShadow = CALayer()
         innerShadow.name = "innerShadow"
         innerShadow.frame = bounds
@@ -41,7 +40,7 @@ extension UIView {
         layer.addSublayer(innerShadow)
     }
     
-    func removeInnerShadow() {
+    public func removeInnerShadow() {
         layer.sublayers?.forEach {
             if $0.name == "innerShadow" {
                 $0.removeFromSuperlayer()
@@ -51,14 +50,14 @@ extension UIView {
 }
 
 extension Locale {
-    var isEnglish: Bool {
+    public var isEnglish: Bool {
         return Locale.current.languageCode == "en"
     }
 }
 
 extension UIApplication {
     
-    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    public class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let nav = base as? UINavigationController {
             return topViewController(base: nav.visibleViewController)
         }
@@ -77,27 +76,27 @@ extension UIApplication {
 
 extension UIViewController {
     
-    func pop() {
+    public func pop() {
         DispatchQueue.main.async {
             self.navigationController?.popViewController(animated: false)
         }
     }
     
-    func push(vc: UIViewController) {
+    public func push(vc: UIViewController) {
         vc.hidesBottomBarWhenPushed = true
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(vc, animated: false)
         }
     }
     
-    func present(vc: UIViewController, modalPresentationStyle: UIModalPresentationStyle? = .fullScreen, animated: Bool = true) {
+    public func present(vc: UIViewController, modalPresentationStyle: UIModalPresentationStyle? = .fullScreen, animated: Bool = true) {
         vc.modalPresentationStyle = modalPresentationStyle ?? .automatic
         DispatchQueue.main.async {
             self.present(vc, animated: animated)
         }
     }
     
-    func presentCrossDissolve(vc: UIViewController) {
+    public func presentCrossDissolve(vc: UIViewController) {
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
         vc.view.backgroundColor = .clear
@@ -107,23 +106,23 @@ extension UIViewController {
         }
     }
     
-    func dismiss() {
+    public func dismiss() {
         DispatchQueue.main.async {
             self.dismiss(animated: true)
         }
     }
     
-    func popToRoot(animated: Bool = false) {
+    public func popToRoot(animated: Bool = false) {
         self.navigationController?.popToRootViewController(animated: animated)
     }
     
-    func showAlert(title: String, message: String? = nil) {
+    public func showAlert(title: String, message: String? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(vc: alert)
     }
     
-    func replaceRootViewController(with viewController: UIViewController, animated: Bool = true) {
+    public func replaceRootViewController(with viewController: UIViewController, animated: Bool = true) {
         guard let window = UIApplication.shared.windows.first else { return }
         
         window.rootViewController = viewController
@@ -134,7 +133,7 @@ extension UIViewController {
         }
     }
     
-    func setupTapGestureToHideKeyboard() {
+    public func setupTapGestureToHideKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
@@ -146,11 +145,11 @@ extension UIViewController {
 }
 
 extension UIView {
-    func addSubviews(_ views: UIView...) {
+    public func addSubviews(_ views: UIView...) {
         views.forEach { addSubview($0) }
     }
     
-    func applyGradientBorder(colors: [UIColor], lineWidth: CGFloat, cornerRadius: CGFloat) {
+    public func applyGradientBorder(colors: [UIColor], lineWidth: CGFloat, cornerRadius: CGFloat) {
         self.layer.sublayers?.removeAll(where: { $0 is CAGradientLayer })
         
         let gradient = CAGradientLayer()
@@ -174,7 +173,7 @@ extension UIView {
 }
 
 extension UIImage {
-    static func gradientImage(
+    public static func gradientImage(
         bounds: CGRect,
         colors: [UIColor],
         startPoint: CGPoint = CGPoint(x: 0.0, y: 0.5),
@@ -195,7 +194,7 @@ extension UIImage {
 }
 
 extension UIDevice {
-    var hasHomeButton: Bool {
+    public var hasHomeButton: Bool {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         guard let window = windowScene?.windows.first else { return true }
@@ -203,26 +202,26 @@ extension UIDevice {
         return window.safeAreaInsets.top <= 20
     }
     
-    var isPad: Bool {
+    public var isPad: Bool {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
 }
 
 extension UIScreen {
-    static var isLittleDevice: Bool = UIScreen.main.bounds.height < 852.0
-    static var isBigDevice: Bool = UIScreen.main.bounds.height >= 874.0
+    public static var isLittleDevice: Bool = UIScreen.main.bounds.height < 852.0
+    public static var isBigDevice: Bool = UIScreen.main.bounds.height >= 874.0
 }
 
 extension UIView {
     
-    func add(target: Any?, action: Selector) {
+    public func add(target: Any?, action: Selector) {
         let recognizer = UITapGestureRecognizer(target: target, action: action)
         addGestureRecognizer(recognizer)
     }
 }
 
 extension UIColor {
-    convenience init(hex: String) {
+    public convenience init(hex: String) {
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
 
@@ -239,16 +238,16 @@ extension UIColor {
 
 extension String {
     
-    var localized: String {
+    public var localized: String {
         return NSLocalizedString(self, comment: "\(self)_comment")
     }
 }
 
-protocol Apply {}
+public protocol Apply {}
 
-extension Apply where Self: AnyObject {
+public extension Apply where Self: AnyObject {
     @discardableResult
-    func apply(_ closure: (Self) -> Void) -> Self {
+    public func apply(_ closure: (Self) -> Void) -> Self {
         closure(self)
         return self
     }
@@ -258,7 +257,7 @@ extension NSObject: Apply {}
 
 extension String {
 
-    func attributedString(font: UIFont?, aligment: NSTextAlignment = .center, color: UIColor, lineSpacing: CGFloat = 0, maxHeight: CGFloat) -> NSAttributedString {
+    public func attributedString(font: UIFont?, aligment: NSTextAlignment = .center, color: UIColor, lineSpacing: CGFloat = 0, maxHeight: CGFloat) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineSpacing
         paragraphStyle.maximumLineHeight = maxHeight
@@ -275,7 +274,7 @@ extension String {
 }
 
 extension Collection {
-    subscript (safe index: Index) -> Element? {
+    public subscript (safe index: Index) -> Element? {
         return indices.contains(index) ? self[index] : nil
     }
 }
