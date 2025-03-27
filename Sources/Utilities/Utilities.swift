@@ -193,8 +193,16 @@ extension UIImage {
     }
 }
 
+extension Date {
+    func formattedDateString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM yyyy"
+        return formatter.string(from: self)
+    }
+}
+
 extension UIDevice {
-    public var hasHomeButton: Bool {
+    var hasHomeButton: Bool {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         guard let window = windowScene?.windows.first else { return true }
@@ -202,8 +210,20 @@ extension UIDevice {
         return window.safeAreaInsets.top <= 20
     }
     
-    public var isPad: Bool {
+    var isPad: Bool {
         return UIDevice.current.userInterfaceIdiom == .pad
+    }
+}
+
+extension UILabel {
+    func highlightText(_ text: String, with color: UIColor) {
+        guard let labelText = self.text else { return }
+        
+        let attributedString = NSMutableAttributedString(string: labelText)
+        let range = (labelText as NSString).range(of: text)
+        attributedString.addAttribute(.foregroundColor, value: color, range: range)
+        
+        self.attributedText = attributedString
     }
 }
 
