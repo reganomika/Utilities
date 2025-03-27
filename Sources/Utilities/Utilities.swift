@@ -194,7 +194,7 @@ extension UIImage {
 }
 
 extension Date {
-    func formattedDateString() -> String {
+    public func formattedDateString() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMM yyyy"
         return formatter.string(from: self)
@@ -202,7 +202,7 @@ extension Date {
 }
 
 extension UIDevice {
-    var hasHomeButton: Bool {
+    public var hasHomeButton: Bool {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         guard let window = windowScene?.windows.first else { return true }
@@ -210,13 +210,13 @@ extension UIDevice {
         return window.safeAreaInsets.top <= 20
     }
     
-    var isPad: Bool {
+    public var isPad: Bool {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
 }
 
 extension UILabel {
-    func highlightText(_ text: String, with color: UIColor) {
+    public func highlightText(_ text: String, with color: UIColor) {
         guard let labelText = self.text else { return }
         
         let attributedString = NSMutableAttributedString(string: labelText)
